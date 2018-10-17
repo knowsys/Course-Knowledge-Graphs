@@ -21,9 +21,10 @@ def generate_random_graph(vertices, edges, undirected):
     graph['edges'] = random.sample(possible_edges, edges)
 
     if undirected:
-        backwards_edges = set((target, source)
-                           for (source, target) in graph['edges'])
-        graph['edges'] = list(set(graph['edges']) | backwards_edges)
+        backwards_edges = [(target, source)
+                           for (source, target) in graph['edges']
+                           if (target, source) not in graph['edges']]
+        graph['edges'] += backwards_edges
 
     return graph
 
