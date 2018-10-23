@@ -78,7 +78,7 @@ HANDLERS = {
 PUBLICATIONS = HANDLERS.keys()
 
 
-def coauthor_graph_from_dblp(infile):
+def authorship_graph_from_dblp(infile):
     graph = defaultdict(list)
     parser = ET.XMLParser()
 
@@ -108,14 +108,14 @@ def write_rdf_to_file(outfile, graph):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-        description='Extract the coauthor graph from the DBLP dump')
+        description='Extract the authorship graph from the DBLP dump')
     parser.add_argument('input',
                         help='path to dblp.xml')
     parser.add_argument('output',
                         help='path to output graph')
 
     args = parser.parse_args()
-    graph = coauthor_graph_from_dblp(args.input)
+    graph = authorship_graph_from_dblp(args.input)
 
     with open(args.output, 'w') as outfile:
         write_rdf_to_file(outfile, graph)
