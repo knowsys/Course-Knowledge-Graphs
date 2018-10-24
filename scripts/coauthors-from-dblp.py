@@ -101,7 +101,7 @@ def write_rdf_to_file(outfile, graph):
     for author, coauthors in graph.items():
         subj = uri_for_author(author.translate(entities))
         for coauthor in coauthors:
-            obj = uri_for_author(coauthor)
+            obj = uri_for_author(coauthor.translate(entities))
 
             print('<{}> <{}> <{}> .'.format(subj, DBLP_COAUTHOR_WITH, obj),
                   file=outfile)
