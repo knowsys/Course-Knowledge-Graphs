@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 
-import bz2
 import rdflib
 import argparse
 from datetime import datetime
@@ -36,9 +35,8 @@ if __name__ == '__main__':
 
     start = datetime.now()
     print('[{}] starting parsing'.format(start))
-    with bz2.open(args.dump, mode='rb') as dump:
-        # might fail due to https://github.com/RDFLib/rdflib/issues/835
-        graph.parse(dump, format='nt')
+    # might fail due to https://github.com/RDFLib/rdflib/issues/835
+    graph.parse(args.dump, format='nt')
 
     stop = datetime.now()
     print('[{}] finished parsing, took {}'.format(stop, stop - start))
@@ -66,8 +64,7 @@ if __name__ == '__main__':
                                                                 stop - start))
 
     start = datetime.now()
-    with bz2.open(args.out, mode='wb') as outfile:
-        out.serialize(outfile, format='nt')
+    out.serialize(args.out, format='nt')
 
     stop = datetime.now()
     print('[{}] finished writing output, took {}'.format(stop, stop - start))
