@@ -1,0 +1,13 @@
+# composers of works with longer-than-average english labels
+SELECT ?composerLabel (COUNT(?work) AS ?works) WHERE {
+  { SELECT (AVG(STRLEN(?workLabel)) AS ?avgLength) WHERE {
+    ?work wdt:P31/wdt:P279* wd:Q207628 ;  # musical work
+          rdfs:label ?workLabel FILTER(LANG(?workLabel) = "en")
+  }}
+
+  ?work wdt:P31/wdt:P279* wd:Q207628 ;  # musical work
+        wdt:P86 ?composer ;             # composer
+        rdfs:label ?workLabel FILTER(LANG(?workLabel) = "en")
+  FILTER(STRLEN(?workLabel) > ?avgLength)
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" }
+  } GROUP BY ?composerLabel ORDER BY DESC(?works) LIMIT 30
