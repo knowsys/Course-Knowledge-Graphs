@@ -21,7 +21,7 @@ SELECT ?countryLabel (GROUP_CONCAT(?genreLabel; SEPARATOR=", ") AS ?genres) WHER
            FILTER(LANG(?genreLabel) = "en")
     {{ ?performer wdt:P31/wdt:P279* wd:Q215380 } UNION          # performer is-a band
      { ?performer ((wdt:P31/wdt:P279*)|wdt:P106) wd:Q639669 }}  # … or a musician
-    ?performer (wdt:P27|wdt:P495) ?country .                    # performer originating in/citizen of country
+    ?performer (wdt:P27|wdt:P495)/wdt:P131* ?country .          # performer originating in/citizen of country
     } GROUP BY ?country ?genre ?genreLabel
   }
   FILTER(?performers = ?maxPerformers)  # keep only those combinations of country and genre
