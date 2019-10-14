@@ -18,8 +18,8 @@ target vertex. Vertices are numbered `0, 1, …, n - 1`.
 
 
 ## Licenses
-Unless otherwise specified, the data files under `test-data` are
+Unless otherwise specified, the data files under `wc-2018/test-data` are
 released as [CC-0 1.0](https://creativecommons.org/publicdomain/zero/1.0/).
 
-The graphs under `test-data/dblp` are derived from
+The graphs under `wc-2018-test-data/dblp` are derived from
 [DBLP](https://dblp.uni-trier.de), originally released under [ODC-BY 1.0](https://opendatacommons.org/licenses/by/summary/)
