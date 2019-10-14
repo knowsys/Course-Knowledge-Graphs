@@ -1,9 +1,0 @@
-# things named after bands or works performed by bands that are not a type of thorougfare
-SELECT ?band ?bandLabel
-       (GROUP_CONCAT(DISTINCT ?thingLabel; SEPARATOR=", ") AS ?things) WHERE {
-  ?band wdt:P31/wdt:P279* wd:Q215380 ;                      # a band
-        (^wdt:P175?)/^wdt:P138 ?thing .                     # (performed-by?) named-after
-  FILTER NOT EXISTS { ?thing wdt:P31/wdt:P279* wd:Q83620 }  # not a thoroughfare
-  ?thing rdfs:label ?thingLabel FILTER(LANG(?thingLabel) = "en")
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
-  } GROUP BY ?band ?bandLabel ORDER BY DESC(COUNT(?thing)) LIMIT 30
