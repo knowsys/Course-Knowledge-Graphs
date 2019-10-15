@@ -1,2 +1,0 @@
-autnums.html filter=lfs diff=lfs merge=lfs -text
-rib.20190121.0000.bz2 filter=lfs diff=lfs merge=lfs -text
