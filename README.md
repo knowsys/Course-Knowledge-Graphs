@@ -9,3 +9,8 @@ sudo apt install git
 sudo apt install git-lfs
 ```
 Once `git-lfs` has been installed, it is necessary to activate it in your local repository (`git lfs install`).
+
+### Changelog
+
+2019.10.30
+* Links to data directories have been updated. Exercise Sheets have been updated accordingly.
