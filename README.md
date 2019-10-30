@@ -8,3 +8,4 @@ Please note that during this course, we will use `git` and `git-lfs`. These tool
 sudo apt install git
 sudo apt install git-lfs
 ```
+Once `git-lfs` has been installed, it is necessary to activate it in your local repository (`git lfs install`).
