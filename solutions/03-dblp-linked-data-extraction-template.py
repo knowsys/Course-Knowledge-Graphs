@@ -30,8 +30,8 @@ def _get_ntriples_from_linked_data(iri):
         time.sleep(delay)
         return _get_ntriples_from_linked_data(iri)
 
-    #edith next line
-    return Graph([])
+    #edit the next line
+    return io.read_ntriples_graph(request.text.splitlines())
 
 """
 (a) get the graph of publications of the author
