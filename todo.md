@@ -1,7 +1,7 @@
 
 ### TODO
-*   add gentle introduction to python
+*   add a gentle introduction to python
 *   add templates to python exercise
 *   organize exercise solutions into directories
-*   rename repository to something like "knowledge graph tutorial"
+*   rename the repository to something like "knowledge graph tutorial"
 
