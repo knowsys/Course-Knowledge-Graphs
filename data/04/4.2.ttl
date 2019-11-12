@@ -1,0 +1,18 @@
+@prefix eg: <http://example.org/> .
+eg:Arrival eg:actorRole eg:aux1, eg:aux2 ;
+           eg:director "Denis Villeneuve" .
+eg:aux1 eg:actor eg:Adams ;
+        eg:character "Louise Banks" .
+eg:aux2 eg:actor eg:Renner ;
+        eg:character "Ian Donnelly" .
+eg:Gravity eg:actorRole [ eg:actor eg:Bullock ;
+			  eg:character "Ryan Stone" ] ;
+           eg:actorRole [ eg:actor     eg:Clooney;
+                          eg:character "Matt Kowalski" ] ;
+eg:director "Alfonso Cuarón" .
+eg:AmericanHustle eg:actorRole eg:aux3 , eg:aux4 ;
+                  eg:director "David Russell " .
+eg:aux3 eg:actor eg:Adams ;
+        eg:character "Sydney Prosser" .
+eg:aux4 eg:actor eg:Renner ;
+        eg:character "Carmine Polito" .
