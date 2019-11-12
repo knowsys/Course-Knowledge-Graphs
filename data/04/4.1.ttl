@@ -1,0 +1,5 @@
+@prefix eg: <http://example.org/> .
+_:1 eg:edge _:1, _:2, _:3, _:4 .
+_:2 eg:edge _:1, _:3 .
+_:3 eg:edge _:1, _:2 .
+_:4 eg:edge _:1, _:4 .
