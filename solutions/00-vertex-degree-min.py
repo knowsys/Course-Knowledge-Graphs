@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import sys
-from itertools import islice
 
 def max_degree_vertices(filename):
     # read the input file
@@ -13,7 +12,7 @@ def max_degree_vertices(filename):
                                                # memory
 
         for line in input_file:
-            source, target = line.split(' ')      # for every edge in
+            source, target = line.split()         # for every edge in
                                                   # the file
             degrees[int(target)] += 1             # increment the
                                                   # degree of the
@@ -30,5 +29,6 @@ def max_degree_vertices(filename):
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print('Usage: {} graph.txt'.format(sys.argv[0]))
+        sys.exit(1)
 
     max_degree_vertices(sys.argv[1])
