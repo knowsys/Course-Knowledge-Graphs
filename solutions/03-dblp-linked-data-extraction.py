@@ -5,22 +5,37 @@ import time
 import argparse
 import requests
 
-from time import sleep
-
 from graphs import Graph, io
 
-DBLP_AUTHOR_OF = 'https://dblp.org/rdf/schema-2017-04-18#authorOf'
-DBLP_AUTHORED_BY = 'https://dblp.org/rdf/schema-2017-04-18#authoredBy'
+DBLP_AUTHOR_OF = 'https://dblp.org/rdf/schema-2020-07-01#authorOf'
+DBLP_AUTHORED_BY = 'https://dblp.org/rdf/schema-2020-07-01#authoredBy'
+
+
+class RedirectError(RuntimeError):
+    def __init__(self, iri):
+        self.iri = iri
+
+    def __repr__(self):
+        return f"<Redirect [{self.iri}]>"
 
 
 def _get_ntriples_from_linked_data(iri):
-    request = requests.get('{}.nt'.format(iri))
-    sleep(1)
+    request = requests.get(f"{iri}.nt", allow_redirects=False)
+
     if request.status_code == 429:
+        # we're making too many requests, wait a bit
         delay = int(request.headers['Retry-After'])
-        print('got 429, sleeping for {} seconds'.format(delay))
+        print("got 429, sleeping for {delay} seconds")
         time.sleep(delay)
         return _get_ntriples_from_linked_data(iri)
+
+    if request.is_redirect:
+        # this is a redirect, find the new IRI
+        iri = requests.head(f"{iri}.nt", allow_redirects=True).url
+
+        if iri.endswith('.nt'):
+            iri = iri[:-len('.nt')]
+        raise RedirectError(iri)
 
     return io.read_ntriples_graph(request.text.splitlines())
 
@@ -62,6 +77,12 @@ if __name__ == '__main__':
 
 
     args = parser.parse_args()
+    papers = {}
+    try:
+        papers = extract_single_author_papers(args.author)
+    except RedirectError as e:
+        # got redirected to new IRI, follow it
+        papers = extract_single_author_papers(e.iri)
 
-    for paper in extract_single_author_papers(args.author):
+    for paper in papers:
         print(paper)

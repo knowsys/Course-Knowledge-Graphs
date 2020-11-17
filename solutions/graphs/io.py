@@ -6,9 +6,9 @@ from html.entities import codepoint2name
 
 NTRIPLES_PATTERN = re.compile(
     r'\s*'.join([r'^',
-                  r'<(?P<subj>[^>]*)>',
+                  r'<?(?P<subj>((?<=<)[^>]*(?=>))|((?<!<)(_:[^ ><]+)(?!>)))>?',
                   r'<(?P<pred>[^>]*)>',
-                  r'(<(?P<obj>[^>]*)>|"(?P<lit>[^"]*)"(@[a-z]+)?)',
+                  r'((<?(?P<obj>((?<=<)[^>]*(?=>))|((?<!<)(_:[^ ><]+)(?!>)))>?)|("(?P<lit>([^"]|\\")*)"((@[a-z]+)|(\^\^<[^>]*>))?))',
                   r'.',
                   r'$']))
 ENTITIES = str.maketrans({
