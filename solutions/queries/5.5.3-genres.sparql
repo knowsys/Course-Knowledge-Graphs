@@ -1,0 +1,9 @@
+# -*- mode: sparql -*-
+# musical genres with the most bands and musicians
+SELECT ?genre ?genreLabel (COUNT(DISTINCT ?performer) AS ?performers) WHERE {
+  ?genre wdt:P31/wdt:P279* wd:Q188451 ;                       # a genre
+         ^wdt:P136 ?performer .                               # genre-of: performer
+  {{ ?performer wdt:P31/wdt:P279* wd:Q215380 } UNION          # performer a band
+   { ?performer ((wdt:P31/wdt:P279*)|wdt:P106) wd:Q639669 }}  # … or a musician or occupation: musician
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  } GROUP BY ?genre ?genreLabel ORDER BY DESC(?performers) LIMIT 42
