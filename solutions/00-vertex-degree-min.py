@@ -2,7 +2,7 @@
 
 import sys
 
-def max_degree_vertices(filename):
+def min_degree_vertices(filename):
     # read the input file
     with open(filename, 'r') as input_file:
         vertices = int(input_file.readline())  # first line has the
@@ -16,9 +16,9 @@ def max_degree_vertices(filename):
                                                   # the file
             degrees[int(target)] += 1             # increment the
                                                   # degree of the
-                                                  # source vertex
+                                                  # target vertex
 
-    # now we have seen every edge, find the vertices with maximal
+    # now we have seen every edge, find the vertices with minimal
     # degree
     result = [vertex
               for (vertex, degree) in enumerate(degrees)
