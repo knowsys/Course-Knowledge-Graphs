@@ -1,0 +1,10 @@
+SELECT ?person ?personLabel WHERE {
+  ?person p:P166 ?prize1, ?prize2 ;
+          wdt:P31 wd:Q5 .
+  ?prize1 ps:P166/wdt:P279 wd:Q7191 ;
+          pq:P585 ?time1 .
+  ?prize2 ps:P166/wdt:P279 wd:Q7191 ;
+          pq:P585 ?time2 .
+  FILTER(?time1 < ?time2)
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  }
