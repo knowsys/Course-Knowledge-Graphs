@@ -1,0 +1,42 @@
+SELECT ?F11Label ?F12Label ?F13Label ?F14Label
+       ?F21Label ?F22Label ?F23Label ?F24Label
+       ?F31Label ?F32Label ?F33Label ?F34Label
+       ?F41Label ?F42Label ?F43Label ?F44Label WHERE {
+  wd:Q45354 wdt:P527 ?F11, ?F12, ?F13, ?F14,
+                     ?F21, ?F22, ?F23, ?F24,
+                     ?F31, ?F32, ?F33, ?F34,
+                     ?F41, ?F42, ?F43, ?F44 .
+
+  FILTER(?F11 = wd:Q44301  && ?F22 = wd:Q108912 &&
+         ?F33 = wd:Q311900 && ?F44 = wd:Q310113) .
+
+  FILTER(?F11 != ?F12 && ?F11 != ?F13 && ?F11 != ?F14 &&
+         ?F12 != ?F13 && ?F12 != ?F14 && ?F13 != ?F14) .
+  FILTER(?F21 != ?F22 && ?F21 != ?F23 && ?F21 != ?F24 &&
+         ?F22 != ?F23 && ?F22 != ?F24 && ?F23 != ?F24) .
+  FILTER(?F31 != ?F32 && ?F31 != ?F33 && ?F31 != ?F34 &&
+         ?F32 != ?F33 && ?F32 != ?F34 && ?F33 != ?F34) .
+  FILTER(?F41 != ?F42 && ?F41 != ?F43 && ?F41 != ?F44 &&
+         ?F42 != ?F43 && ?F42 != ?F44 && ?F43 != ?F44) .
+
+  FILTER(?F11 != ?F21 && ?F11 != ?F31 && ?F11 != ?F41 &&
+         ?F21 != ?F31 && ?F21 != ?F41 && ?F31 != ?F41) .
+  FILTER(?F12 != ?F22 && ?F12 != ?F32 && ?F12 != ?F42 &&
+         ?F22 != ?F32 && ?F22 != ?F42 && ?F32 != ?F42) .
+  FILTER(?F13 != ?F23 && ?F13 != ?F33 && ?F13 != ?F43 &&
+         ?F23 != ?F33 && ?F23 != ?F43 && ?F33 != ?F43) .
+  FILTER(?F14 != ?F24 && ?F14 != ?F34 && ?F14 != ?F44 &&
+         ?F24 != ?F34 && ?F24 != ?F44 && ?F34 != ?F44) .
+
+  FILTER(?F11 != ?F12 && ?F11 != ?F21 && ?F11 != ?F22 &&
+         ?F12 != ?F21 && ?F12 != ?F22 && ?F21 != ?F22) .
+  FILTER(?F31 != ?F32 && ?F31 != ?F41 && ?F31 != ?F42 &&
+         ?F32 != ?F41 && ?F32 != ?F42 && ?F41 != ?F24) .
+
+  FILTER(?F13 != ?F14 && ?F13 != ?F23 && ?F13 != ?F24 &&
+         ?F13 != ?F23 && ?F13 != ?F24 && ?F23 != ?F24) .
+  FILTER(?F33 != ?F34 && ?F33 != ?F43 && ?F33 != ?F44 &&
+         ?F34 != ?F43 && ?F34 != ?F44 && ?F43 != ?F44) .
+
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}

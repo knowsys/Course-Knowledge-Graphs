@@ -1,0 +1,11 @@
+SELECT DISTINCT ?person WHERE {
+  ?missionA wdt:P31 wd:Q752783 ;
+            wdt:P620 ?landingA ;
+            (^wdt:P450|wdt:P1029) ?person ;
+            wdt:P137/wdt:P17 ?countryA .
+  ?missionB wdt:P31 wd:Q752783 ;
+            wdt:P620 ?landingB ;
+            (^wdt:P450|wdt:P1029) ?person ;
+            wdt:P137/wdt:P17 ?countryB .
+  FILTER(?missionA != ?missionB && ?countryA != ?countryB)
+}
