@@ -1,0 +1,8 @@
+SELECT ?languageLabel (COUNT(?l) AS ?lexemes) (GROUP_CONCAT(?lemma; SEPARATOR=", ") AS ?lemmata) WHERE {
+  ?l rdf:type ontolex:LexicalEntry ;
+     dct:language ?language ;
+     ontolex:sense/wdt:P5137 ?item ;
+     wikibase:lemma ?lemma .
+  ?item wdt:P31?/wdt:P279* wd:Q7561 .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  } GROUP BY ?languageLabel ORDER BY DESC(?lexemes) LIMIT 10
