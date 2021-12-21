@@ -1,0 +1,5 @@
+@load "parents.rls"
+@reason
+@query COUNT inBoth(?X, ?Y)
+@query COUNT onlyInWikidata(?X, ?Y)
+@query COUNT onlyInDBpedia(?X, ?Y)
