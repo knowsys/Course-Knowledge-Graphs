@@ -1,7 +1,0 @@
-SELECT (COUNT(*)/3 AS ?count) WHERE {
-  ?item1 wdt:P47 ?item2 ; wdt:P31 wd:Q35657 .
-  ?item2 wdt:P47 ?item3 ; wdt:P31 wd:Q35657 .
-  ?item3 wdt:P47 ?item1 ; wdt:P31 wd:Q35657 .
-
-  FILTER(?item1 != ?item2 && ?item2 != ?item3 && ?item3 != ?item1)
-  }

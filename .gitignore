@@ -6,3 +6,4 @@
 *.synctex.gz
 *.out
 __pycache__
+.direnv
