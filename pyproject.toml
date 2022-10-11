@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "knowledge-graphs-solutions"
+version = "0.1.0"
+description = ""
+authors = [ "Maximilian Marx <maximilian.marx@tu-dresden.de>" ]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+requests = "^2.27"
+scipy = ">=1.6,<1.7"
+networkx = "^2.6"
+networkit = "^9.1"
+pandas = "^1.5"
