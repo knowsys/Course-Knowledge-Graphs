@@ -35,7 +35,7 @@
             });
           };
         in poetryEnv.env.overrideAttrs
-        (oldAttrs: { buildInputs = [ pkgs.poetry ]; });
+        (oldAttrs: { buildInputs = with pkgs; [ black poetry ]; });
       };
     };
 }
