@@ -1,0 +1,8 @@
+# -*- mode: sparql -*-
+#title:triangles in P47
+SELECT (COUNT(*) AS ?count) WHERE {
+  ?item1 wdt:P47 ?item2 .
+  ?item2 wdt:P47 ?item3 .
+  ?item3 wdt:P47 ?item1 .
+  FILTER(?item1 != ?item2 && ?item2 != ?item3 && ?item3 != ?item1)
+  }
