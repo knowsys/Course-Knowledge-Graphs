@@ -1,0 +1,14 @@
+# -*- mode: sparql -*-
+#title:is there a 5-clique in P3373?
+ASK WHERE {
+  ?q1 wdt:P3373      ?q2, ?q3, ?q4, ?q5 .
+  ?q2 wdt:P3373 ?q1,      ?q3, ?q4, ?q5 .
+  ?q3 wdt:P3373 ?q1, ?q2,      ?q4, ?q5 .
+  ?q4 wdt:P3373 ?q1, ?q2, ?q3,      ?q5 .
+  ?q5 wdt:P3373 ?q1, ?q2, ?q3, ?q4      .
+
+  FILTER (?q1 != ?q2 && ?q1 != ?q3 && ?q1 != ?q4 && ?q1 != ?q5 &&
+                        ?q2 != ?q3 && ?q2 != ?q4 && ?q2 != ?q5 &&
+                                      ?q3 != ?q4 && ?q3 != ?q5 &&
+                                                    ?q4 != ?q5)
+  }
