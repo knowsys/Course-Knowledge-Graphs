@@ -1,0 +1,15 @@
+# -*- mode: sparql -*-
+#title:top 10 languages with lexemes for kinds of snow
+SELECT
+  ?languageLabel
+  (COUNT(DISTINCT ?l) AS ?lexemes)
+  (GROUP_CONCAT(DISTINCT ?lemma; SEPARATOR=", ") AS ?lemmas)
+WHERE {
+  ?l a ontolex:LexicalEntry;
+     dct:language ?language;
+     wikibase:lemma ?lemma ;
+     ontolex:sense/wdt:P5137/wdt:P31?/wdt:P279* wd:Q7561 .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
+GROUP BY ?languageLabel
+ORDER BY DESC(?lexemes)
