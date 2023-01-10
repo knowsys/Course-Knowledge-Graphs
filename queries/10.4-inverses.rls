@@ -1,0 +1,18 @@
+@prefix wdqs: <https://query.wikidata.org/> .
+
+@source inverseConstraint[2] : sparql(wdqs:sparql, "property,inverse", """
+  ?property p:P2302 ?stmt .
+  ?stmt pq:P2306 ?inverse ;
+        ps:P2302 wd:Q21510855 .
+""") .
+
+@source violation[3] : sparql(wdqs:sparql, "stmt,prop,inv", """
+  ?prop wikibase:claim ?p ;
+        wikibase:statementProperty ?ps .
+  ?inv wikibase:directClaim ?i .
+  ?subj ?p ?stmt .
+  ?stmt ?ps ?obj .
+  FILTER NOT EXISTS { ?obj ?i ?subj }
+""") .
+
+missingInverse(?stmt) :- inverseConstraint(?prop, ?inv), violation(?stmt, ?prop, ?inv) .
