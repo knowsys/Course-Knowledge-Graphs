@@ -2,7 +2,7 @@
   description = "Solutions and examples for the Knowledge Graphs course";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     utils.url = "github:gytis-ivaskevicius/flake-utils-plus";
     poetry2nix = {
       url = "github:nix-community/poetry2nix";
