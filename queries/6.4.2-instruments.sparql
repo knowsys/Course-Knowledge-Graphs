@@ -1,0 +1,9 @@
+# -*- mode: sparql -*-
+#title:instruments played by composers
+SELECT ?instrument ?instrumentLabel (COUNT(DISTINCT ?person) AS ?composers) WHERE {
+  ?instrument ^wdt:P1303 ?person . # instrument-of: person
+  {{ ?person wdt:P106 wd:Q36834    # occupation: composer
+  } UNION { ?person ^wdt:P86 []    # composed-by: person
+  }}
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+  } GROUP BY ?instrument ?instrumentLabel ORDER BY DESC(?composers) LIMIT 10
