@@ -3,7 +3,7 @@
 SELECT ?band ?bandLabel (COUNT(DISTINCT ?person) AS ?formerMembers) WHERE {
   ?band wdt:P31/wdt:P279* wd:Q215380 ;       # a band
         p:P527|^ps:P463 ?stmt .              # has-part or member-of
-  ?stmt pq:P582 [] ;                         # end time
+  ?stmt pq:P582 ?end ;                       # end time
         ps:P527|^p:P463 ?person .            # has-part or member-of
   FILTER NOT EXISTS { ?person wdt:P570 [] }  # no date of death
   FILTER NOT EXISTS {
