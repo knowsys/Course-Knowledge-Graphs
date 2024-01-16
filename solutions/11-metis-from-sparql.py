@@ -18,7 +18,7 @@ SELECT DISTINCT ?v ?vLabel ?w ?wLabel WHERE {{
   {{ SELECT DISTINCT ?v ?w WHERE {{
     ?v wdt:P1344 ?tournament .
     ?tournament ^wdt:P2522 ?w .
-    ?tournament wdt:P361* wd:Q170645 .
+#    ?tournament wdt:P361* wd:Q170645 .
   }} ORDER BY ASC(?v) ASC(?w) LIMIT {limit} OFFSET {offset} }}
   SERVICE wikibase:label {{
     bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en" .
