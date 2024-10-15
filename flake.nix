@@ -54,6 +54,7 @@
             buildInputs = with pkgs; [
               black
               poetry
+              mypy
             ];
           });
       };
