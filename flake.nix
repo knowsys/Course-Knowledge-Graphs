@@ -27,10 +27,10 @@
     mkFlake {
       inherit self inputs;
 
-      channels.nixpkgs.overlaysBuilder = channels: [ poetry2nix.overlay ];
+      channels.nixpkgs.overlaysBuilder = channels: [ poetry2nix.overlays.default ];
 
       outputsBuilder = channels: {
-        devShell =
+        devShells.default =
           let
             pkgs = channels.nixpkgs;
             poetryEnv = pkgs.poetry2nix.mkPoetryEnv {
@@ -42,6 +42,7 @@
                       self.cython
                       pkgs.cmake
                     ] ++ (old.nativeBuildInputs or [ ]);
+
                     buildInputs = [ self.scikit-build ] ++ (old.buildInputs or [ ]);
                     dontUseCmakeConfigure = true;
                   });
