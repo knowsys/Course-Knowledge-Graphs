@@ -6,8 +6,9 @@ authors = [ "Maximilian Marx <maximilian.marx@tu-dresden.de>" ]
 
 [tool.poetry.dependencies]
 python = "~3.11"
-requests = "^2.27"
-scipy = "~1.10"
+requests = "^2.32"
+scipy = "~1.14"
 networkx = "^3"
-networkit = "^10"
-pandas = "^1.5"
+networkit = "^11"
+numpy = "^1"
+pandas = "^2"
