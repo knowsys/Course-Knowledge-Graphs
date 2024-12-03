@@ -1,0 +1,10 @@
+# -*- mode: sparql -*-
+#title:Characters appearing in two different instances of subclasses of literary works
+SELECT DISTINCT ?character ?characterLabel WHERE {
+  ?workA wdt:P674 ?character ;
+         wdt:P31/wdt:P279 wd:Q7725634 .
+  ?workB wdt:P674 ?character ;
+         wdt:P31/wdt:P279 wd:Q7725634 .
+  FILTER (str(?workA) < str(?workB))
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],mul,en". }
+  }
