@@ -1,0 +1,7 @@
+# -*- mode: sparql -*-
+#title:people related to Johann Sebastian Bach, playing an instrument
+SELECT DISTINCT ?person ?personLabel WHERE {
+  wd:Q1339 ((wdt:P40|wdt:P25|wdt:P26)/p:P1303/^p:P1303)+ ?person .
+
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],mul,en". }
+}
