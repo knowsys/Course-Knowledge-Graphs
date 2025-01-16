@@ -5,10 +5,10 @@ description = ""
 authors = [ "Maximilian Marx <maximilian.marx@tu-dresden.de>" ]
 
 [tool.poetry.dependencies]
-python = "~3.11"
+python = "~3.12"
 requests = "^2.32"
-scipy = "~1.14"
+scipy = "~1.15"
 networkx = "^3"
 networkit = "^11"
-numpy = "^1"
+numpy = "^2"
 pandas = "^2"
