@@ -1,0 +1,24 @@
+@prefix wd: <http://www.wikidata.org/entity/> .
+
+@import child :- tsv { resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}" },
+                 ?query = "SELECT ?s ?t WHERE { ?s wdt:P40 ?t }" .
+
+@import mother :- tsv { resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}" },
+                  ?query = "SELECT ?s ?t WHERE { ?s wdt:P25 ?t }" .
+
+@import spouse :- tsv { resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}" },
+                  ?query = "SELECT ?s ?t WHERE { ?s wdt:P26 ?t }" .
+
+@import playsOrgan :- tsv { resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}" },
+                      }, ?query = "SELECT ?p WHERE { ?p wdt:P1303 wd:Q1444 }" .
+
+related(?X, ?Y) :- child(?X, ?Y) .
+related(?X, ?Y) :- mother(?X, ?Y) .
+related(?X, ?Y) :- spouse(?X, ?Y) .
+
+relatedViaOrganists(?X, ?Y) :- related(?X, ?Y), playsOrgan(?X), playsOrgan(?Y) .
+relatedViaOrganists(?X, ?Y) :- relatedViaOrganists(?X, ?Z), relatedViaOrganists(?Z, ?Y) .
+
+relatedOrganistOfBach(?X) :- relatedViaOrganists(wd:Q1339, ?X) .
+
+@export relatedOrganistOfBach :- csv{resource=""} .
