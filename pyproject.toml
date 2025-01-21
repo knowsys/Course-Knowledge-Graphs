@@ -1,14 +1,24 @@
-[tool.poetry]
+[project]
 name = "knowledge-graphs-solutions"
 version = "0.1.0"
 description = ""
-authors = [ "Maximilian Marx <maximilian.marx@tu-dresden.de>" ]
+authors = [ { name = "Maximilian Marx", email = "maximilian.marx@tu-dresden.de" } ]
+requires-python = ">= 3.12"
+dependencies = [
+  "requests >= 2.32,<3",
+  "scipy >= 1.15,<2",
+  "networkx >= 3,<4",
+  "networkit",
+  "numpy >= 2,<3",
+  "pandas >= 2,<3",
+]
 
-[tool.poetry.dependencies]
-python = "~3.11"
-requests = "^2.32"
-scipy = "~1.15"
-networkx = "^3"
-networkit = "^11"
-numpy = "^1"
-pandas = "^2"
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.sources]
+networkit = { git = "https://github.com/networkit/networkit/", rev = "9b33495752e5b98f1401faea911c026279a0d478" }
+
+[tool.hatch.build.targets.wheel]
+packages = ["solutions/programs/graphs"]
