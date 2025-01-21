@@ -1,0 +1,43 @@
+@import wdParent :- tsv { resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}" },
+                    ?query = """
+                      SELECT ?child ?childArticle ?parent ?parentArticle WHERE {
+                        ?child wdt:P25|wdt:P22 ?parent .
+                        ?parentArticleIri schema:about ?parent ;
+                        schema:isPartOf <https://en.wikipedia.org/> .
+                        ?childArticleIri schema:about ?child ;
+                        schema:isPartOf <https://en.wikipedia.org/> .
+                        BIND(STR(?childArticleIri) AS ?childArticle)
+                        BIND(STR(?parentArticleIri) AS ?parentArticle)
+                      }
+                    """ .
+
+@import dbParent :- tsv { resource = f"https://dbpedia.org/sparql?query={URIENCODE(?query)}" },
+                    ?query = """
+                      SELECT ?child ?childArticle ?parent ?parentArticle WHERE {
+                        ?child dbo:parent ?parent ;
+                        foaf:isPrimaryTopicOf ?childArticleIri .
+                        ?parent foaf:isPrimaryTopicOf ?parentArticleIri .
+                        FILTER(STRSTARTS(STR(?childArticleIri), "http://en.wikipedia.org") &&
+                               STRSTARTS(STR(?parentArticleIri), "http://en.wikipedia.org"))
+                        BIND(CONCAT("https", SUBSTR(STR(?childArticleIri), 5)) AS ?childArticle)
+                        BIND(CONCAT("https", SUBSTR(STR(?parentArticleIri), 5)) AS ?parentArticle)
+                      }
+                    """ .
+
+wdRelatedArticles(?childArticle, ?parentArticle) :- wdParent(?wdChild, ?childArticle, ?wdParent, ?parentArticle) .
+dbRelatedArticles(?childArticle, ?parentArticle) :- dbParent(?dbChild, ?childArticle, ?dbParent, ?parentArticle) .
+
+inBoth(?childArticle, ?parentArticle) :- wdRelatedArticles(?childArticle, ?parentArticle),
+                                         dbRelatedArticles(?childArticle, ?parentArticle) .
+
+onlyInWikidata(?wdChild, ?wdParent) :- wdParent(?wdChild, ?childArticle, ?wdParent, ?parentArticle),
+                                      ~dbRelatedArticles(?childArticle, ?parentArticle) .
+
+onlyInDBpedia(?dbChild, ?dbParent) :- dbParent(?dbChild, ?childArticle, ?dbParent, ?parentArticle),
+                                     ~wdRelatedArticles(?childArticle, ?parentArticle) .
+
+result("in both", #count(?child, ?parent)) :- inBoth(?child, ?parent) .
+result("only in Wikidata", #count(?child, ?parent)) :- onlyInWikidata(?child, ?parent) .
+result("only in DBpedia", #count(?child, ?parent)) :- onlyInDBpedia(?child, ?parent) .
+
+@export result :- tsv { resource = "" } .
