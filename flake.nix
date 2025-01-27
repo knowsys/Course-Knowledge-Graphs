@@ -7,7 +7,7 @@
     utils.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
     nemo = {
-      url = "github:knowsys/nemo/refs/tags/v0.7.0";
+      url = "github:knowsys/nemo/refs/tags/v0.7.1";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         utils.follows = "utils";
