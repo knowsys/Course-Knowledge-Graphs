@@ -1,0 +1,9 @@
+# -*- mode: sparql -*-
+#title:spouse statements lacking an inverse
+SELECT ?stmt WHERE {
+  ?subject p:P26 ?stmt .
+  ?stmt ps:P26 ?object .
+  FILTER NOT EXISTS {
+    ?object wdt:P26 ?subject .
+  }
+}

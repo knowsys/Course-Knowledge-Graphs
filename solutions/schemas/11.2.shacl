@@ -1,0 +1,28 @@
+eg:CoordinateShape
+  a sh:NodeShape ;
+  sh:targetClass wikibase:GlobecoordinateValue ;
+  sh:property [
+    sh:path wikibase:geoLatitude ;
+    sh:datatype xsd:double
+    sh:minCount 1;
+    sh:maxCount 1;
+  ] ;
+  sh:property [
+    sh:path wikibase:geoLongitude ;
+    sh:datatype xsd:double;
+    sh:minCount 1;
+    sh:maxCount 1;
+  ] ;
+  sh:property [
+    sh:path wikibase:geoPrecision ;
+    sh:datatype xsd:double;
+    sh:minCount 1;
+    sh:maxCount 1;
+  ] ;
+  sh:property [
+    sh:path wikibase:geoGlobe ;
+    sh:nodeKind sh:IRI;
+    sh:minCount 1;
+    sh:maxCount 1;
+  ] ;
+  sh:closed true .

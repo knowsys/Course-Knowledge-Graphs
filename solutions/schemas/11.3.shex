@@ -1,0 +1,21 @@
+PREFIX eg: <http://example.org/>
+
+eg:Coloured @eg:Red OR @eg:Green OR @eg:Blue
+
+eg:Red CLOSED {
+  a [eg:Node] ;
+  (eg:edge @eg:Green | eg:edge @eg:Blue |
+   ^eg:edge @eg:Green | ^eg:edge @eg:Blue) * ;
+} AND NOT @eg:Green AND NOT @eg:Blue
+
+eg:Green CLOSED {
+  a [eg:Node] ;
+  (eg:edge @eg:Red | eg:edge @eg:Blue |
+   ^eg:edge @eg:Red | ^eg:edge @eg:Blue) * ;
+} AND NOT @eg:Red AND NOT @eg:Blue
+
+eg:Blue CLOSED {
+  a [eg:Node] ;
+  (eg:edge @eg:Green | eg:edge @eg:Red |
+   ^eg:edge @eg:Green | ^eg:edge @eg:Red) * ;
+} AND NOT @eg:Red AND NOT @eg:Green

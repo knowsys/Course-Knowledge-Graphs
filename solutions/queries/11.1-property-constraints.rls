@@ -1,0 +1,10 @@
+@import spouse :- tsv{ resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}",
+                       ignore_headers = true
+                     }, ?query = """
+                                 SELECT ?stmt ?subj ?obj WHERE {
+                                   ?subj p:P26 ?stmt . ?stmt ps:P26 ?obj
+                                 }""" .
+
+violations(?stmt) :- spouse(?stmt, ?subj, ?obj), ~spouse(?reverse_stmt, ?obj, ?subj) .
+
+@export violations :- csv{ resource = "" } .
