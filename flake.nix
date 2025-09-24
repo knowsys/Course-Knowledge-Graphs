@@ -2,12 +2,12 @@
   description = "Solutions and examples for the Knowledge Graphs course";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
 
     utils.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
     nemo = {
-      url = "github:knowsys/nemo/refs/tags/v0.7.1";
+      url = "github:knowsys/nemo/refs/tags/v0.8.0";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         utils.follows = "utils";
@@ -54,10 +54,7 @@
       };
 
       nemoOverlay = pkgs: final: prev: {
-        nemo-python = (hacks final).nixpkgsPrebuilt {
-          from = nemo.packages."${pkgs.system}".nemo-python;
-          prev = prev.requests; # ugly hack, but we require requests anyway
-        };
+        inherit (nemo.packages.${pkgs.system}) nemo-python;
       };
 
       pyprojectOverrides = final: prev: {
