@@ -7,7 +7,7 @@
     utils.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
     nemo = {
-      url = "github:knowsys/nemo/refs/tags/v0.8.0";
+      url = "github:knowsys/nemo/refs/tags/v0.9.0";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         utils.follows = "utils";
@@ -113,15 +113,14 @@
               pkgs.nemo
               pkgs.uv
             ];
-            env =
-              {
-                UV_NO_SYNC = "1";
-                UV_PYTHON_DOWNLOADS = "never";
-                UV_PYTHON = python pkgs;
-              }
-              // lib.optionalAttrs pkgs.stdenv.isLinux {
-                LD_LIBRARY_PATH = lib.makeLibraryPath pkgs.pythonManylinuxPackages.manylinux1;
-              };
+            env = {
+              UV_NO_SYNC = "1";
+              UV_PYTHON_DOWNLOADS = "never";
+              UV_PYTHON = python pkgs;
+            }
+            // lib.optionalAttrs pkgs.stdenv.isLinux {
+              LD_LIBRARY_PATH = lib.makeLibraryPath pkgs.pythonManylinuxPackages.manylinux1;
+            };
             shellHook = ''
               unset PYTHONPATH
             '';
