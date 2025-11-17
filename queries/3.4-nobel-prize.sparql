@@ -1,0 +1,15 @@
+# -*- mode: sparql -*-
+#title:people who have won more than one nobel prize
+SELECT ?person ?personLabel ?prizeALabel ?prizeBLabel WHERE {
+  ?person p:P166 ?stmtA ;
+          p:P166 ?stmtB ;
+          wdt:P31 wd:Q5 .
+  ?stmtA ps:P166 ?prizeA .
+  ?stmtB ps:P166 ?prizeB .
+  ?prizeA wdt:P361 wd:Q7191 .
+  ?prizeB wdt:P279 wd:Q7191 .
+
+  FILTER(STR(?stmtA) < STR(?stmtB))
+
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+}
