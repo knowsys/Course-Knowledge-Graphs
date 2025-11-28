@@ -1,0 +1,15 @@
+# -*- mode: sparql -*-
+#title:people who have returned from two spaceflights by different operators
+SELECT DISTINCT ?person ?personLabel ?timeInSpace WHERE {
+  ?person wdt:P2873 ?timeInSpace .
+  ?missionA wdt:P31 wd:Q752783 ;
+            wdt:P620 ?landingA ;
+            (^wdt:P450|wdt:P1029) ?person ;
+            wdt:P137/wdt:P17 ?countryA .
+  ?missionB wdt:P31 wd:Q752783 ;
+            wdt:P620 ?landingB ;
+            (^wdt:P450|wdt:P1029) ?person ;
+            wdt:P137/wdt:P17 ?countryB .
+  FILTER(?missionA != ?missionB && ?countryA != ?countryB)
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+} ORDER BY DESC(?timeInSpace)
