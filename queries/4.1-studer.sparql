@@ -1,0 +1,5 @@
+PREFIX dblp: <https://dblp.org/rdf/schema#>
+SELECT ?paper WHERE {
+  ?paper dblp:authoredBy <https://dblp.org/pid/s/RudiStuder> .
+  ?paper dblp:authoredBy ?author .
+} GROUP BY ?paper HAVING (COUNT(?author) = 1)
