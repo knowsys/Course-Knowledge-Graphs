@@ -1,0 +1,11 @@
+@import triple :- ntriples { resource = "../../examples/data/dblp/coauthors.nt.gz" } .
+%@import triple :- ntriples { resource = "https://media.githubusercontent.com/media/knowsys/Course-Knowledge-Graphs/refs/heads/main/data/dblp/authorship-snippet.nt.gz" } .
+
+reachable(<http://dblp.uni-trier.de/pers/s/Studer:Rudi>) .
+
+reachable(?s) :- reachable(?o), triple(?s, _, ?o) .
+reachable(?o) :- reachable(?s), triple(?s, _, ?o) .
+
+connectedComponent(?s, ?p, ?o) :- triple(?s, ?p, ?o), reachable(?s), reachable(?o) .
+
+@export connectedComponent :- ntriples {} .
