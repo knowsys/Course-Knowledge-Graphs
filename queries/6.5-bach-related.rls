@@ -1,20 +1,16 @@
 @prefix wd: <http://www.wikidata.org/entity/> .
+@prefix wdqs: <https://query.wikidata.org/> .
 
-@import child :- tsv { resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}" },
-                 ?query = "SELECT ?s ?t WHERE { ?s wdt:P40 ?t }" .
+@import related :- sparql{ endpoint = wdqs:sparql, query = """
+  PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+  SELECT ?s ?t WHERE { ?s wdt:P40|wdt:P25|wdt:P26 ?t }
+""" }.
 
-@import mother :- tsv { resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}" },
-                  ?query = "SELECT ?s ?t WHERE { ?s wdt:P25 ?t }" .
-
-@import spouse :- tsv { resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}" },
-                  ?query = "SELECT ?s ?t WHERE { ?s wdt:P26 ?t }" .
-
-@import playsOrgan :- tsv { resource = f"https://query.wikidata.org/sparql?query={URIENCODE(?query)}" },
-                      }, ?query = "SELECT ?p WHERE { ?p wdt:P1303 wd:Q1444 }" .
-
-related(?X, ?Y) :- child(?X, ?Y) .
-related(?X, ?Y) :- mother(?X, ?Y) .
-related(?X, ?Y) :- spouse(?X, ?Y) .
+@import playsOrgan :- sparql{ endpoint = wdqs:sparql, query = """
+  PREFIX wd: <http://www.wikidata.org/entity/>
+  PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+  SELECT ?p WHERE { ?p wdt:P1303 wd:Q1444 }
+""" }.
 
 relatedViaOrganists(?X, ?Y) :- related(?X, ?Y), playsOrgan(?X), playsOrgan(?Y) .
 relatedViaOrganists(?X, ?Y) :- relatedViaOrganists(?X, ?Z), relatedViaOrganists(?Z, ?Y) .
