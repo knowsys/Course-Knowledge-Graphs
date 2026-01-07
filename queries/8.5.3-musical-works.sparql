@@ -1,0 +1,19 @@
+# -*- mode: sparql -*-
+#title:composers of works with longer-than-average english labels
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT ?composerLabel (COUNT(?work) AS ?works) WHERE {
+  { SELECT (AVG(STRLEN(?workLabel)) AS ?avgLength) WHERE {
+    ?work wdt:P31/wdt:P279* wd:Q207628 ;  # musical work
+          rdfs:label ?workLabel FILTER(LANG(?workLabel) = "en")
+  }}
+
+  ?work wdt:P31/wdt:P279* wd:Q207628 ;  # musical work
+        wdt:P86 ?composer ;             # composer
+        rdfs:label ?workLabel FILTER(LANG(?workLabel) = "en")
+  FILTER(STRLEN(?workLabel) > ?avgLength)
+  ?composer rdfs:label ?composerLabel .
+  FILTER(LANG(?composerLabel) = "en")
+  } GROUP BY ?composerLabel ORDER BY DESC(?works) LIMIT 30

@@ -1,0 +1,15 @@
+# -*- mode: sparql -*-
+#title:universities employing professers educated there
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?universityLabel (COUNT(DISTINCT ?person) AS ?persons) WHERE {
+  ?person wdt:P31/wdt:P279* wd:Q5 ;         # a human
+          wdt:P106 wd:Q121594 ;             # occupation: professor
+          wdt:P69 ?university ;             # educated at: university
+          wdt:P108 ?university .            # employer: university
+  ?university wdt:P31/wdt:P279* wd:Q3918 ;  # a university
+              rdfs:label ?universityLabel .
+  FILTER(LANG(?universityLabel) = "en")
+  } GROUP BY ?universityLabel ORDER BY DESC(?persons) LIMIT 25
