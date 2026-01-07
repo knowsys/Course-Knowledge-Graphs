@@ -1,0 +1,12 @@
+# -*- mode: sparql -*-
+#title:people related to Johann Sebastian Bach, playing an instrument
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX p: <http://www.wikidata.org/prop/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?person ?person_label WHERE {
+  wd:Q1339 ((wdt:P40|wdt:P25|wdt:P26)/p:P1303/^p:P1303)+ ?person .
+  ?person rdfs:label ?person_label
+  FILTER(LANG(?person_label) = "en")
+}

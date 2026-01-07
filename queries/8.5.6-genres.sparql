@@ -1,0 +1,36 @@
+# -*- mode: sparql -*-
+#title:top musical genre(s) per sovereign country, by number of bands and musicians
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT ?countryLabel (GROUP_CONCAT(?genreLabel; SEPARATOR=", ") AS ?genres) WHERE {
+  # for every country, find the maximum number of performers for some genre
+  { SELECT ?country (MAX(?genrePerformers) AS ?maxPerformers) WHERE {
+      # for every country and genre, find the maximum number of performers
+      SELECT ?country (MAX(COUNT(DISTINCT ?performer)) AS ?genrePerformers) WHERE {
+      ?genre wdt:P31/wdt:P279* wd:Q188451 ;  # is-a musical genre
+             ^wdt:P136 ?performer ;          # genre of performer
+      {{ ?performer wdt:P31/wdt:P279* wd:Q215380 } UNION          # performer is-a band
+       { ?performer ((wdt:P31/wdt:P279*)|wdt:P106) wd:Q639669 }}  # … or a musician
+      ?performer (wdt:P27|wdt:P495)/wdt:P131* ?country .          # performer originating in/citizen of country
+      ?country wdt:P31 wd:Q3624078 .                              # country is a sovereign state
+      } GROUP BY ?country ?genre
+    } GROUP BY ?country }
+  # for every country and genre, find the number of performers
+  { SELECT ?country ?genre ?genreLabel
+           (COUNT(DISTINCT ?performer) AS ?performers) WHERE {
+    ?genre wdt:P31/wdt:P279* wd:Q188451 ;  # is-a musical genre
+           ^wdt:P136 ?performer ;          # genre of performer
+           rdfs:label ?genreLabel          # also fetch the label
+           FILTER(LANG(?genreLabel) = "en")
+    {{ ?performer wdt:P31/wdt:P279* wd:Q215380 } UNION          # performer is-a band
+     { ?performer ((wdt:P31/wdt:P279*)|wdt:P106) wd:Q639669 }}  # … or a musician
+    ?performer (wdt:P27|wdt:P495)/wdt:P131* ?country .          # performer originating in/citizen of country
+    } GROUP BY ?country ?genre ?genreLabel
+  }
+  FILTER(?performers = ?maxPerformers)  # keep only those combinations of country and genre
+                                        # where the number of performers is maximal
+  ?country rdfs:label ?countryLabel .
+  FILTER(LANG(?countryLabel) = "en") .
+  } GROUP BY ?countryLabel ORDER BY ?countryLabel
