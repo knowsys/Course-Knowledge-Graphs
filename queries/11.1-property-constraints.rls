@@ -1,0 +1,13 @@
+@import spouse :- sparql{ endpoint = <https://query.wikidata.org/sparql>,
+                          query = """
+                            PREFIX p: <http://www.wikidata.org/prop/>
+                            PREFIX ps: <http://www.wikidata.org/prop/statement/>
+                            SELECT ?stmt ?subj ?obj WHERE {
+                              ?subj p:P26 ?stmt . ?stmt ps:P26 ?obj .
+                            }"""
+                        }.
+
+violations(?stmt) :- spouse(?stmt, ?subj, ?obj), ~spouse(?reverse, ?obj, ?subj) .
+
+@export violations :- csv{} .
+@output violations .
