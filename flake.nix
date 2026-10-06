@@ -2,16 +2,11 @@
   description = "Solutions and examples for the Knowledge Graphs course";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-
-    utils.url = "github:gytis-ivaskevicius/flake-utils-plus";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     nemo = {
-      url = "github:knowsys/nemo/refs/tags/v0.9.0";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-        utils.follows = "utils";
-      };
+      url = "github:knowsys/nemo/refs/tags/v0.10.1";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     pyproject-nix = {
@@ -36,7 +31,6 @@
   outputs =
     {
       self,
-      utils,
       nemo,
       uv2nix,
       pyproject-nix,
@@ -44,8 +38,9 @@
       ...
     }@inputs:
     let
-      inherit (utils.lib) mkFlake;
       inherit (inputs.nixpkgs) lib;
+      forAllSystems' = systems: f: lib.genAttrs systems f;
+      forAllSystems = forAllSystems' lib.systems.flakeExposed;
 
       workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = ./.; };
       hacks = pkgs: pkgs.callPackage pyproject-nix.build.hacks { };
@@ -54,7 +49,7 @@
       };
 
       nemoOverlay = pkgs: final: prev: {
-        inherit (nemo.packages.${pkgs.system}) nemo-python;
+        inherit (nemo.packages.${pkgs.stdenv.hostPlatform.system}) nemo-python;
       };
 
       pyprojectOverrides = final: prev: {
@@ -93,19 +88,17 @@
           workspace.deps.all // { nemo-python = [ ]; }
         );
     in
-    mkFlake {
-      inherit self inputs;
-
-      channels.nixpkgs.overlaysBuilder = channels: [
-        nemo.overlays.default
-      ];
-
-      outputsBuilder = channels: {
-        devShells.default =
-          let
-            pkgs = channels.nixpkgs;
-          in
-          pkgs.mkShell {
+    {
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = import inputs.nixpkgs {
+            overlays = [ nemo.overlays.default ];
+            inherit system;
+          };
+        in
+        {
+          default = pkgs.mkShell {
             packages = [
               (virtualenv pkgs)
               pkgs.black
@@ -125,6 +118,7 @@
               unset PYTHONPATH
             '';
           };
-      };
+        }
+      );
     };
 }
