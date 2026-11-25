@@ -1,0 +1,15 @@
+# -*- mode: sparql -*-
+#title:Characters appearing in two different instances of subclasses of literary works
+SELECT * WHERE {
+  ?workA wdt:P31/wdt:P279 wd:Q7725634 ;
+         wdt:P674 ?character .
+  ?workB wdt:P31/wdt:P279 wd:Q7725634 ;
+         wdt:P674 ?character .
+
+  FILTER(STR(?workA) < STR(?workB))
+
+  ?workA rdfs:label ?workALabel . FILTER(LANG(?workALabel) = "en")
+  ?workB rdfs:label ?workBLabel . FILTER(LANG(?workBLabel) = "en")
+
+  ?character rdfs:label ?characterLabel . FILTER(LANG(?characterLabel) = "en")
+  }
